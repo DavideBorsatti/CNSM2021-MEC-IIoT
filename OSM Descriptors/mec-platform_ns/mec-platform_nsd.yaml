@@ -1,0 +1,24 @@
+nsd:
+    nsd:
+    -   description: NS consisting of a single KNF mec-platform_knf connected to mgmt
+            network
+        designer: Unibo
+        df:
+        -   id: default-df
+            vnf-profile:
+            -   id: mec-platform
+                virtual-link-connectivity:
+                -   constituent-cpd-id:
+                    -   constituent-base-element-id: mec-platform
+                        constituent-cpd-id: mgmt-ext
+                    virtual-link-profile-id: mgmtnet
+                vnfd-id: mec-platform_knf
+        id: mec-platform_ns
+        name: mec-platform_ns
+        version: '1.0'
+        virtual-link-desc:
+        -   id: mgmtnet
+            mgmt-network: 'true'
+            vim-network-name: mgmt
+        vnfd-id:
+        - mec-platform_knf

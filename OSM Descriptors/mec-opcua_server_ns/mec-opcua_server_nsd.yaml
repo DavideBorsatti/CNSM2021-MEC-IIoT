@@ -1,0 +1,24 @@
+nsd:
+    nsd:
+    -   description: NS consisting of a single KNF mec-opcua-server_knf connected to mgmt
+            network
+        designer: OSM
+        df:
+        -   id: default-df
+            vnf-profile:
+            -   id: mec-opcua-server
+                virtual-link-connectivity:
+                -   constituent-cpd-id:
+                    -   constituent-base-element-id: mec-opcua-server
+                        constituent-cpd-id: mgmt-ext
+                    virtual-link-profile-id: mgmtnet
+                vnfd-id: mec-opcua-server_knf
+        id: mec-opcua-server_ns
+        name: mec-opcua-server_ns
+        version: '1.0'
+        virtual-link-desc:
+        -   id: mgmtnet
+            mgmt-network: 'true'
+            vim-network-name: mgmt
+        vnfd-id:
+        - mec-opcua-server_knf

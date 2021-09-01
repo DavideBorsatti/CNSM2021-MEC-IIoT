@@ -1,0 +1,1 @@
+36754c6959de134792915e4ed8f8bb45	mec-platform_knf/mec-platform_vnfd.yaml
