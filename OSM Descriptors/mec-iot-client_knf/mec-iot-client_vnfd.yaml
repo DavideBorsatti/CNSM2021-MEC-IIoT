@@ -1,0 +1,18 @@
+vnfd:
+    description: KNF for deploying a MEC IoT Client
+    df:
+    -   id: default-df
+    ext-cpd:
+    -   id: mgmt-ext
+        k8s-cluster-net: os
+    id: mec-iot-client_knf
+    k8s-cluster:
+        nets:
+        -   id: mgmtnet
+    kdu:
+    -   helm-chart: chartmuseum/mec-iot-client
+        name: mec-iot-client
+    mgmt-cp: mgmt-ext
+    product-name: mec-iot-client_knf
+    provider: Unibo
+    version: '1.0'

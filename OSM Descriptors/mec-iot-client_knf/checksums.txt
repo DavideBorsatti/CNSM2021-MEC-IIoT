@@ -1,0 +1,1 @@
+e41049fd1081c4655a8c1a1afda2e455	mec-iot-client_knf/mec-iot-client_vnfd.yaml

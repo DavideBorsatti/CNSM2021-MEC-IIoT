@@ -1,0 +1,1 @@
+220d4383f9ac77ec53cdbe09d501157f	mec-mqtt-pub_knf/mec-mqtt-pub_vnfd.yaml
