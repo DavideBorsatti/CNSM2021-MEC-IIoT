@@ -1,0 +1,59 @@
+---
+{{ $randNum := randNumeric 3 }}
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: mep-mqtt-broker-{{$randNum}}
+  labels:
+    app: mep-mqtt-broker-{{$randNum}}
+spec:
+  #hostNetwork: true
+  #dnsPolicy: ClusterFirstWithHostNet
+  containers:
+    - name: mep-mqtt-broker-1
+      image: davideborsatti/cnsm-mep-mqtt
+      env:
+        # MEC Platform endpoint
+        - name: MEC_BASE
+          value: "http://mec-platform"
+        - name: INFRA
+          value: "k8s"  
+        - name: MY_POD_NAME
+          value: "mep-mqtt-broker-{{$randNum}}"
+        - name: MY_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace        
+      ports:
+        - containerPort: 1883
+      imagePullPolicy: Always
+      volumeMounts:
+        - name: config-volume
+          mountPath: /mosquitto/config/      
+  volumes:
+    - name: config-volume
+      configMap:
+        name: mosquitto-configmap
+  #nodeSelector:
+  #  project: mec
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mep-mqtt-broker-{{$randNum}}
+spec:
+  type: LoadBalancer
+  selector:
+    app: mep-mqtt-broker-{{$randNum}}
+  ports:
+    - port: 1883
+      targetPort: 1883
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mosquitto-configmap
+data:
+  mosquitto.conf: |
+    listener 1883
+    allow_anonymous true

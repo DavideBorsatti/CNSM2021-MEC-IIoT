@@ -1,0 +1,61 @@
+---
+{{ $randNum := randNumeric 3 }}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mqtt-pub-mec-{{$randNum}}
+  labels:
+    app: mqtt-pub-mec-{{$randNum}}
+spec:
+  #hostNetwork: true
+  #dnsPolicy: ClusterFirstWithHostNet
+  containers:
+    - name: mqtt-pub-mec-1
+      image: davideborsatti/cnsm-mqtt-pub
+      env:
+        # MEC Platform endpoint
+        - name: MEC_BASE
+          value: "http://mec-platform"
+        - name: INFRA
+          value: "k8s"  
+        - name: MY_POD_NAME
+          value: "mqtt-pub-mec-{{$randNum}}"
+        - name: MY_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+      imagePullPolicy: Always
+      volumeMounts:
+        - name: config-volume
+          mountPath: /etc/mqtt
+      
+  volumes:
+    - name: config-volume
+      configMap:
+        name: topic-configmap-{{$randNum}}
+  #nodeSelector:
+  #  project: mec
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mqtt-pub-mec-{{$randNum}}
+spec:
+  type: LoadBalancer
+  selector:
+    app: mqtt-pub-mec-{{$randNum}}
+  ports:
+    - port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: topic-configmap-{{$randNum}}
+data:
+  topics.json: |
+    {"topics": ["dev{{$randNum}}/temperature","dev{{$randNum}}/air_quality"]}
+
+
+
+
