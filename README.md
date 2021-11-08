@@ -1,1 +1,1 @@
-# CNSM2021-MEC-IIoT
+# Demo-MEC-IIoT
